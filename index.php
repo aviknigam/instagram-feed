@@ -1,6 +1,5 @@
 <?php 
 
-// https://scontent.cdninstagram.com/t51.2885-15/e35/23967411_502012043513677_2057498804633993216_n.jpg
 
 ?> 
 <!DOCTYPE html>
@@ -15,27 +14,59 @@
 	</head>
 	<body>
 		<div class="container-fluid wrapper d-flex justify-content-center align-items-center">
-			<div class="input-group">
-				<span class="input-group-addon" id="basic-addon1">@</span>
-				<input type="text" class="form-control" placeholder="Username">
-				<span class="input-group-btn">
-					<button class="btn btn-secondary" type="button">Go!</button>
-				</span>
-			</div>
+			<form action="/" method="GET">
+				<div class="input-group">
+					<span class="input-group-addon">@</span>
+					<input type="text" name="username" class="form-control" placeholder="Username">
+					<span class="input-group-btn">
+						<button class="btn btn-secondary" type="submit">Go!</button>
+					</span>
+				</div>
+			</form>
 		</div>
 
 		<!-- Main Pictures -->
 			<div class="container-fluid mt-5">
-				<div class="row">
-					<div class="col-sm-4 d-flex justify-content-center">
-						hi
-					</div>
-					<div class="col-sm-4 d-flex justify-content-center">
-						hi
-					</div>
-					<div class="col-sm-4 d-flex justify-content-center">
-						hi
-					</div>
+				<div class="row d-flex justify-content-center">
+					<?php 
+						// Username from URL => append a static string if not using form input
+						$username = $_GET['username'];
+
+						// Get the JSON
+						try {
+							$json = file_get_contents("https://www.instagram.com/" .$username. "/?__a=1");
+						} catch ( Exception $e ) {
+							// echo 
+							// '<h2>This profile does not exist :(</h2>';
+							// echo $e->getMessage();
+							die();
+						}
+						
+						$json = json_decode($json, true);
+
+						// Verify public profile
+						if ( $json['user']['is_private'] == true ) {
+							echo 
+								'<h2>This profile is private :(</h2>';
+							die();
+						}
+
+						// Display pictures
+						foreach ( $json['user']['media']['nodes'] as $node) {
+							$url = $node['thumbnail_src'];
+							
+							// Remove unnecessary information from url
+							// $url = str_replace('/s640x640', '', $url);
+							echo '<img src="'. $url .'" class="igimg">';
+						}
+						// Sample URL
+						// https://scontent-syd2-1.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/23498198_202436726957413_6414376486542770176_n.jpg 
+						
+						// Aim URL
+						// https://scontent.cdninstagram.com/t51.2885-15/e35/23967411_502012043513677_2057498804633993216_n.jpg
+						
+
+					?>
 				</div>
 			</div>
 	</body>
