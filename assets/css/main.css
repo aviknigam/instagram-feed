@@ -1,0 +1,17 @@
+html, body {
+    height:100%;
+}
+
+.wrapper {
+    background: -webkit-linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5)), url("../images/opaq-bg.jpg");
+    background: -o-linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5)), url("../images/opaq-bg.jpg");
+    background: linear-gradient(rgba(100, 34, 34, 0.2), rgba(0, 0, 0, 0.5)), url("../images/opaq-bg.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 80%;
+    position: relative;
+}
